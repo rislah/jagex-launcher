@@ -290,6 +290,7 @@ func (l *LauncherApp) completeAccountSetup(gameIDToken string, tokenResp *TokenR
 		RefreshToken: tokenResp.RefreshToken,
 		AccessToken:  tokenResp.AccessToken,
 		IDToken:      tokenResp.IDToken,
+		GameIDToken: gameIDToken,
 		ExpiresAt:    time.Now().Add(time.Duration(tokenResp.ExpiresIn) * time.Second).Unix(),
 		SessionID:    sessionResp.SessionID,
 	}
@@ -319,7 +320,7 @@ func (l *LauncherApp) refreshAuthTokensAndSession(account *Account) error {
 	account.IDToken = tokenResp.IDToken
 	account.ExpiresAt = time.Now().Add(time.Duration(tokenResp.ExpiresIn) * time.Second).Unix()
 
-	sessionResp, err := l.api.createGameSession(account.IDToken)
+	sessionResp, err := l.api.createGameSession(account.GameIDToken)
 	if err != nil {
 		return err
 	}

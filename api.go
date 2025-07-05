@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -15,6 +17,7 @@ type Account struct {
 	RefreshToken string      `json:"refresh_token"`
 	AccessToken  string      `json:"access_token"`
 	IDToken      string      `json:"id_token"`
+	GameIDToken string `json:"game_id_token"`
 	ExpiresAt    int64       `json:"expires_at"`
 	SessionID    string      `json:"session_id"`
 	characters   []Character 
@@ -196,6 +199,11 @@ func (api *JagexAPI) getAccounts(sessionID string) (*AccountsResponse, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to get accounts, status: %d, body: %s", resp.StatusCode, string(bodyBytes))
+	}
 
 	var accounts AccountsResponse
 	err = json.NewDecoder(resp.Body).Decode(&accounts)
