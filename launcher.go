@@ -26,7 +26,7 @@ type LauncherApp struct {
 
 func NewLauncherApp() *LauncherApp {
 	a := app.New()
-	w := a.NewWindow("OSRS Launcher")
+	w := a.NewWindow("RuneScape Launcher")
 	w.Resize(fyne.NewSize(600, 400))
 	w.SetFixedSize(true)
 
