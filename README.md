@@ -14,7 +14,7 @@ Cross-platform GUI launcher for OSRS that allows launching Runelite from differe
 ## Why?
 Jagex has made it clear that ["The Jagex launcher and Jagex Accounts will not be supported on the Linux OS"](https://help.jagex.com/hc/en-gb/articles/13413514881937). The only alternative is to use Wine. I don't want to use Wine.
 
-Also, Jagex Launcher is intrusive and is constantly sending telemetry about your session.
+Also Jagex Launcher is intrusive and is constantly sending telemetry about your session. I don't like that.
 
 ## Getting Started
 
@@ -32,6 +32,18 @@ Also, Jagex Launcher is intrusive and is constantly sending telemetry about your
     cd jagex-launcher
     ```
 2.  **Build the application:**
+    For Windows:
+    ```bash
+    go build -o jagex-launcher.exe -ldflags -H=windowsgui
+    ```
     ```bash
     go build -o jagex-launcher .
     ```
+
+    You can also build using the fyne utility:
+    ```bash
+        go install fyne.io/tools/cmd/fyne@latest
+        fyne release -os windows -icon 5.ico
+    ```
+    remove the os argument if not on Windows
+    

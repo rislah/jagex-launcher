@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -26,6 +27,13 @@ type LauncherApp struct {
 
 func NewLauncherApp() *LauncherApp {
 	a := app.New()
+	iconResource, err := fyne.LoadResourceFromPath("5.ico")
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+	a.SetIcon(iconResource)
+
 	w := a.NewWindow("RuneScape Launcher")
 	w.Resize(fyne.NewSize(600, 400))
 	w.SetFixedSize(true)
@@ -290,7 +298,7 @@ func (l *LauncherApp) completeAccountSetup(gameIDToken string, tokenResp *TokenR
 		RefreshToken: tokenResp.RefreshToken,
 		AccessToken:  tokenResp.AccessToken,
 		IDToken:      tokenResp.IDToken,
-		GameIDToken: gameIDToken,
+		GameIDToken:  gameIDToken,
 		ExpiresAt:    time.Now().Add(time.Duration(tokenResp.ExpiresIn) * time.Second).Unix(),
 		SessionID:    sessionResp.SessionID,
 	}
